@@ -16,14 +16,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	# Handle Mouse Rotation
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		if is_instance_valid(movement_component.agent):
-			# Pitch (Nose Up/Down) - Local X axis
-			movement_component.agent.rotate_object_local(
-				Vector3.RIGHT, -event.relative.y * mouse_sensitivity
-			)
-			# Yaw (Turn Left/Right) - Local Y axis (to turn relative to current orientation)
-			movement_component.agent.rotate_object_local(
-				Vector3.UP, -event.relative.x * mouse_sensitivity
-			)
+			# Pitch (Nose Up/Down)
+			# We accumulate input or just pass the relative value
+			# Since we want "steering", we pass the relative motion to the movement component
+			# The movement component will apply it over time (or directly, depending on logic)
+			
+			# Adaptation: We can treat mouse relative as an accumulation to the input for this frame.
+			movement_component.pitch_input += event.relative.y * mouse_sensitivity
+			movement_component.yaw_input += event.relative.x * mouse_sensitivity
 			
 	# Toggle Mouse Capture with ESC
 	if event.is_action_pressed("ui_cancel"):
@@ -37,7 +37,10 @@ func _physics_process(_delta: float) -> void:
 
 func _handle_movement() -> void:
 	# Get vector from Input Map
-	var input_vector = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	# I.e. "move_left", "move_right", "move_forward", "move_backward"
+	var input_vector = Input.get_vector(
+		"move_left", "move_right", "move_forward", "move_backward"
+	)
 	
 	# Create 3D direction (x, 0, y)
 	var direction = Vector3(input_vector.x, 0, input_vector.y)
