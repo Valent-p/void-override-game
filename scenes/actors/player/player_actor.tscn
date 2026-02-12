@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://f0cj6omi7a4a"]
+
+[ext_resource type="Script" uid="uid://c2tamnogvjxp3" path="res://scenes/actors/player/player_actor.gd" id="1_kpl6u"]
+[ext_resource type="PackedScene" uid="uid://cayc2jwg0senp" path="res://src_blend/actors/assault_A2.blend" id="1_ycgvs"]
+[ext_resource type="Script" uid="uid://bgaown1hm4wx5" path="res://scenes/actors/components/movement_component.gd" id="2_rgh5p"]
+[ext_resource type="Script" uid="uid://pf8jxy218nfp" path="res://scenes/actors/components/player_input_component.gd" id="3_31wp5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_31wp5"]
+size = Vector3(4.547241, 1.4628906, 4.477539)
+
+[node name="PlayerActor" type="CharacterBody3D"]
+script = ExtResource("1_kpl6u")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.023132324, 0.23144531, 0.2319336)
+shape = SubResource("BoxShape3D_31wp5")
+
+[node name="assault_A2" parent="." instance=ExtResource("1_ycgvs")]
+
+[node name="MovementComponent" type="Node" parent="." node_paths=PackedStringArray("agent", "mesh_to_tilt")]
+script = ExtResource("2_rgh5p")
+agent = NodePath("..")
+mesh_to_tilt = NodePath("../assault_A2")
+metadata/_custom_type_script = "uid://bgaown1hm4wx5"
+
+[node name="PlayerInputComponent" type="Node" parent="." node_paths=PackedStringArray("movement_component")]
+script = ExtResource("3_31wp5")
+movement_component = NodePath("../MovementComponent")
+metadata/_custom_type_script = "uid://pf8jxy218nfp"
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.96217054, 0.27244824, 0, -0.27244824, 0.96217054, 0, 4, 4)
+current = true

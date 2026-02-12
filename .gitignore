@@ -1,3 +1,10 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# Editor ignores
+.vscode/
+.idea/
+.DS_Store
+.agent/
+

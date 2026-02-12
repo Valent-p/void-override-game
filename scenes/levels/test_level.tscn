@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://cnv3quukujfya"]
+
+[ext_resource type="PackedScene" uid="uid://f0cj6omi7a4a" path="res://scenes/actors/player/player_actor.tscn" id="1_jbqir"]
+[ext_resource type="Texture2D" uid="uid://bitlmq2ll2bxf" path="res://icon.svg" id="2_yautc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_31wp5"]
+albedo_texture = ExtResource("2_yautc")
+
+[sub_resource type="BoxMesh" id="BoxMesh_jbqir"]
+material = SubResource("StandardMaterial3D_31wp5")
+
+[node name="TestLevel" type="Node3D"]
+
+[node name="PlayerActor" parent="." instance=ExtResource("1_jbqir")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7775791, 4.3537397)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0, 0)
+mesh = SubResource("BoxMesh_jbqir")
