@@ -13,10 +13,15 @@ extends Node
 @export var fov_max: float = 90.0
 @export var fov_speed: float = 5.0
 
+@export_group("Shake Settings")
+@export var shake_decay: float = 5.0
+
 # Offset is calculated on ready
 var _offset: Vector3
+var _shake_strength: float = 0.0
 
 func _ready() -> void:
+	add_to_group("camera_shake")
 	if not is_instance_valid(target_node):
 		# Try to find parent if not set
 		target_node = get_parent()
@@ -39,10 +44,18 @@ func _physics_process(delta: float) -> void:
 		return
 		
 	# 1. Position Lag
-	# Calculate desired global position based on target's current transform + original local offset
 	var desired_position = target_node.global_transform * _offset
+	
+	# Apply Shake
+	_shake_strength = lerp(_shake_strength, 0.0, shake_decay * delta)
+	var shake_offset = Vector3(
+		randf_range(-_shake_strength, _shake_strength),
+		randf_range(-_shake_strength, _shake_strength),
+		randf_range(-_shake_strength, _shake_strength)
+	)
+	
 	camera.global_position = camera.global_position.lerp(
-		desired_position, position_lag_speed * delta
+		desired_position + shake_offset, position_lag_speed * delta
 	)
 	
 	# 2. Rotation Lag
@@ -57,10 +70,10 @@ func _physics_process(delta: float) -> void:
 	)
 	
 	# 3. Dynamic FOV
-	# Based on target velocity (if it's a CharacterBody3D)
 	if target_node is CharacterBody3D:
-		# Map speed to 0-1 range. Assuming base speed ~25, boost ~60
 		var speed_fraction = clamp((target_node.velocity.length() - 10.0) / 50.0, 0.0, 1.0)
-		var target_fov = lerp(fov_base, fov_max + 10.0, speed_fraction) # Extra FOV for boost
-		
+		var target_fov = lerp(fov_base, fov_max + 10.0, speed_fraction)
 		camera.fov = lerp(camera.fov, target_fov, fov_speed * delta)
+
+func add_shake(strength: float) -> void:
+	_shake_strength += strength

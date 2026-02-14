@@ -1,6 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://b8lal0m1n2o3"]
 
-[ext_resource type="Script" uid="uid://dfsccpjnouf8n" path="res://scenes/projectiles/projectile.gd" id="1_proj"]
+[ext_resource type="Script" path="res://scenes/projectiles/projectile.gd" id="1_proj"]
+[ext_resource type="PackedScene" uid="uid://c7k2l3m4n5o6" path="res://scenes/effects/blaster_impact.tscn" id="2_impact"]
+
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bolt"]
 radius = 0.3
@@ -20,6 +22,7 @@ height = 1.0
 [node name="BlasterBolt" type="Area3D"]
 script = ExtResource("1_proj")
 speed = 150.0
+impact_effect = ExtResource("2_impact")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)

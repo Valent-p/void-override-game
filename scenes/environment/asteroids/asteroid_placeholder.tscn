@@ -1,24 +1,26 @@
-[gd_scene load_steps=5 format=3 uid="uid://c8j7q6x5z4y2"]
+[gd_scene load_steps=6 format=3 uid="uid://c8k2l3m4n5o7"]
 
-[ext_resource type="Script" path="res://scenes/actors/components/health_component.gd" id="1_health"]
+[ext_resource type="Script" path="res://scenes/environment/asteroids/asteroid.gd" id="1_script"]
+[ext_resource type="Script" path="res://scenes/actors/components/health_component.gd" id="2_health"]
+[ext_resource type="PackedScene" uid="uid://bg5l0m1n2o3" path="res://scenes/effects/asteroid_explosion.tscn" id="3_explosion"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_j7q6x"]
-radius = 4.0
+[sub_resource type="SphereMesh" id="SphereMesh_rock"]
+radius = 2.0
+height = 4.0
 
-[sub_resource type="SphereMesh" id="SphereMesh_5z4y2"]
-radius = 4.0
-height = 8.0
+[sub_resource type="SphereShape3D" id="SphereShape3D_rock"]
+radius = 2.0
 
 [node name="AsteroidPlaceholder" type="StaticBody3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("SphereShape3D_j7q6x")
+script = ExtResource("1_script")
+explosion_effect = ExtResource("3_explosion")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("SphereMesh_5z4y2")
+mesh = SubResource("SphereMesh_rock")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_rock")
 
 [node name="HealthComponent" type="Node" parent="."]
-script = ExtResource("1_health")
-max_health = 50.0
-
-[connection signal="died" from="HealthComponent" to="." method="queue_free"]
+script = ExtResource("2_health")
+max_health = 20.0

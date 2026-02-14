@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://f0cj6omi7a4a" path="res://scenes/actors/player/player_actor.tscn" id="1_player"]
 [ext_resource type="Script" uid="uid://be7s16vpqwqor" path="res://scenes/systems/arena_generator/arena_generator.gd" id="2_generator"]
-[ext_resource type="PackedScene" uid="uid://c8j7q6x504y2" path="res://scenes/environment/asteroids/asteroid_placeholder.tscn" id="3_asteroid"]
+[ext_resource type="PackedScene" uid="uid://c8j7q6x504y2" path="res://scenes/environment/asteroids/asteroid_a.tscn" id="3_asteroid"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_void"]
 sky_top_color = Color(0, 0, 0, 1)
