@@ -59,6 +59,8 @@ func _physics_process(delta: float) -> void:
 	# 3. Dynamic FOV
 	# Based on target velocity (if it's a CharacterBody3D)
 	if target_node is CharacterBody3D:
-		var speed_fraction = clamp(target_node.velocity.length() / 25.0, 0.0, 1.0)
-		var target_fov = lerp(fov_base, fov_max, speed_fraction)
+		# Map speed to 0-1 range. Assuming base speed ~25, boost ~60
+		var speed_fraction = clamp((target_node.velocity.length() - 10.0) / 50.0, 0.0, 1.0)
+		var target_fov = lerp(fov_base, fov_max + 10.0, speed_fraction) # Extra FOV for boost
+		
 		camera.fov = lerp(camera.fov, target_fov, fov_speed * delta)

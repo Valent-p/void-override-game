@@ -39,8 +39,19 @@ func _unhandled_input(event: InputEvent) -> void:
 		if is_instance_valid(movement_component.agent):
 			_fire_all_weapons()
 
+	# Boost Input
+	if Input.is_action_pressed("speed_boost"):
+		movement_component.is_boosting = true
+	# Note: is_action_pressed check inside _physics_process might be better for holding,
+	# but UnhandledInput with event.is_pressed() works for toggles or held keys if configured right.
+	# For "Holding Shift to Boost", we can just check Input singleton in physics process.
+
 func _physics_process(_delta: float) -> void:
-    # Continuous fire check (Machine Gun style)
+	# Boost Logic (Hold Shift)
+	if is_instance_valid(movement_component):
+		movement_component.is_boosting = Input.is_key_pressed(KEY_SHIFT)
+
+	# Continuous fire check (Machine Gun style)
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		if is_instance_valid(movement_component.agent):
 			_fire_all_weapons()

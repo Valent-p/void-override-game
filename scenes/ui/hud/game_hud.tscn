@@ -1,9 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://d2n3o4p5q6r7"]
+[gd_scene load_steps=5 format=3 uid="uid://d2n3o4p5q6r7"]
+
+[ext_resource type="Script" path="res://scenes/ui/hud/game_hud.gd" id="1_hud_script"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_crosshair"]
 size = Vector2(8, 8)
 
-[node name="GameHUD" type="CanvasLayer"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health"]
+bg_color = Color(0.2, 0.8, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boost"]
+bg_color = Color(0.2, 0.6, 1.0, 1)
+
+[node name="GameHUD" type="CanvasLayer" node_paths=PackedStringArray("health_bar", "boost_bar")]
+script = ExtResource("1_hud_script")
+health_bar = NodePath("Control/MarginContainer/VBoxContainer/HealthBar")
+boost_bar = NodePath("Control/MarginContainer/VBoxContainer/BoostBar")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -27,3 +38,32 @@ custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
 texture = SubResource("PlaceholderTexture2D_crosshair")
 stretch_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -80.0
+offset_right = 300.0
+grow_vertical = 0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HealthBar" type="ProgressBar" parent="Control/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_health")
+value = 100.0
+show_percentage = false
+
+[node name="BoostBar" type="ProgressBar" parent="Control/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_boost")
+value = 100.0
+show_percentage = false

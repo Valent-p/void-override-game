@@ -22,10 +22,21 @@ extends Node
 @export var bank_amount: float = 45.0 # Max roll angle when turning
 @export var bank_speed: float = 5.0 # How fast visual banking catches up
 
+@export_group("Boost")
+@export var boost_multiplier: float = 2.5
+@export var max_boost_fuel: float = 100.0
+@export var boost_drain_rate: float = 20.0 # Fuel per second
+@export var boost_refill_rate: float = 10.0 # Fuel per second
+
+signal boost_changed(current: float, max: float)
+
 ## Set this every frame to control movement
 var move_direction: Vector3 = Vector3.ZERO
 var yaw_input: float = 0.0
 var pitch_input: float = 0.0
+var is_boosting: bool = false # Set by input
+
+var current_boost_fuel: float = 100.0
 
 func _ready() -> void:
 	assert(is_instance_valid(agent), "Must set the agent.")
@@ -41,7 +52,19 @@ func _physics_process(delta: float) -> void:
 
 func _handle_movement(delta: float) -> void:
 	# 1. Apply Movement (Acceleration / Friction)
-	var target_velocity_vector = move_direction * max_speed
+	var final_speed = max_speed
+	
+	# Fuel Logic
+	if is_boosting and current_boost_fuel > 0:
+		final_speed *= boost_multiplier
+		current_boost_fuel = max(0.0, current_boost_fuel - boost_drain_rate * delta)
+	else:
+		current_boost_fuel = min(max_boost_fuel, current_boost_fuel + boost_refill_rate * delta)
+		
+	# Emit signal
+	boost_changed.emit(current_boost_fuel, max_boost_fuel)
+	
+	var target_velocity_vector = move_direction * final_speed
 	
 	if move_direction.length_squared() > 0.001:
 		# Accelerate towards target
