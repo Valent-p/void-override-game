@@ -16,6 +16,7 @@ extends Node
 @export var yaw_speed: float = 2.5 * 10
 @export var roll_speed: float = 2.5 * 10
 @export var rotation_inertia: float = 4.0 # Lower is heavier, higher is snappier (Lerp weight)
+@export var auto_level_speed: float = 5.0 # Speed to return to horizon when idle
 
 @export_group("Visuals")
 @export var bank_amount: float = 45.0 # Max roll angle when turning
@@ -55,9 +56,9 @@ func _handle_rotation(delta: float) -> void:
 	if not is_instance_valid(agent): return
 	
 	# Apply Yaw (Left/Right)
-	# We rotate the agent directly, but using a smoothed input approach would be better for "weight".
-	# For now, let's smooth the *visual* mesh for banking, and apply direct physics rotation 
-	# but smoothed by `rotation_inertia` if we wanted strict physics.
+	# Apply Yaw (Left/Right)
+	# We rotate the agent directly, but using a smoothed input approach would be better.
+	# For now, let's apply direct physics rotation smoothed by `rotation_inertia`.
 	
 	# However, for "Galaxy on Fire" feel, the TURN itself should feel like it ramps up.
 	# Let's apply rotation to the agent based on input.
@@ -68,6 +69,30 @@ func _handle_rotation(delta: float) -> void:
 	# Apply rotation to the body
 	agent.rotate_object_local(Vector3.RIGHT, target_pitch)
 	agent.rotate_object_local(Vector3.UP, target_yaw)
+	
+	# --- AUTO-LEVEL ---
+	# If no input is given, smoothly return the ship's roll to level with the horizon.
+	if is_zero_approx(pitch_input) and is_zero_approx(yaw_input):
+		var forward = -agent.global_transform.basis.z
+		
+		# Calculate Right vector (Forward x Up = -Z x Y = X)
+		var right = forward.cross(Vector3.UP)
+		
+		# If looking straight up/down, cross product is zero, skip leveling to avoid quirks
+		if right.length_squared() > 0.001:
+			right = right.normalized()
+			var up = right.cross(forward).normalized()
+			
+			var target_basis = Basis(right, up, -forward)
+			
+			# Ensure it's orthoonormalized to prevent set_quaternion errors
+			target_basis = target_basis.orthonormalized()
+			
+			# Smoothly interpolate current basis to target basis (affects Roll primarily)
+			# We use a slow speed so it feels like "gravity" pulling the wings level
+			agent.global_transform.basis = agent.global_transform.basis.slerp(
+				target_basis, auto_level_speed * delta
+			)
 	
 	# 3. Visual Tilting (Banking)
 	if is_instance_valid(mesh_to_tilt):
