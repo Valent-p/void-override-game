@@ -1,0 +1,60 @@
+[gd_scene load_steps=11 format=3 uid="uid://d1e2f3g4h5i6"]
+
+[ext_resource type="Script" uid="uid://bpipmtwqu3d4u" path="res://scenes/actors/enemy/enemy_actor.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://cayc2jwg0senp" path="res://src_blend/actors/assault_A2.blend" id="2_mesh"]
+[ext_resource type="Script" uid="uid://bgaown1hm4wx5" path="res://scenes/actors/components/movement_component.gd" id="3_movement"]
+[ext_resource type="Script" uid="uid://ceg8qqr0hoc5" path="res://scenes/actors/components/weapon_component.gd" id="4_weapon"]
+[ext_resource type="PackedScene" uid="uid://b8lal0m1n2o3" path="res://scenes/projectiles/blaster_bolt.tscn" id="5_projectile"]
+[ext_resource type="Script" uid="uid://bca2ajtinnu10" path="res://scenes/actors/components/health_component.gd" id="6_health"]
+[ext_resource type="BehaviorTree" uid="uid://c2xvudidhvsoc" path="res://scenes/actors/enemy/enemy_bt.tres" id="7_rwjm3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_enemy"]
+size = Vector3(4, 1.2, 4)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_detect"]
+radius = 150.0
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_ojdn6"]
+
+[node name="EnemyActor" type="CharacterBody3D"]
+script = ExtResource("1_script")
+movement_component = NodePath("MovementComponent")
+weapon_component = NodePath("WeaponComponent")
+health_component = NodePath("HealthComponent")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_enemy")
+
+[node name="Model" parent="." instance=ExtResource("2_mesh")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="MovementComponent" type="Node" parent="." node_paths=PackedStringArray("agent", "mesh_to_tilt")]
+script = ExtResource("3_movement")
+agent = NodePath("..")
+mesh_to_tilt = NodePath("../Model")
+max_speed = 30.0
+
+[node name="WeaponComponent" type="Node" parent="." node_paths=PackedStringArray("muzzle")]
+script = ExtResource("4_weapon")
+projectile_scene = ExtResource("5_projectile")
+fire_rate = 2.0
+muzzle = NodePath("../Muzzle")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("6_health")
+
+[node name="Muzzle" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+
+[node name="DetectionArea" type="Area3D" parent="."]
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionArea"]
+shape = SubResource("SphereShape3D_detect")
+
+[node name="AvoidRay" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, -20)
+
+[node name="BTPlayer" type="BTPlayer" parent="."]
+behavior_tree = ExtResource("7_rwjm3")
+blackboard_plan = SubResource("BlackboardPlan_ojdn6")

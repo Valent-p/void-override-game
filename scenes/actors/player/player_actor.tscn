@@ -9,12 +9,12 @@
 [ext_resource type="PackedScene" uid="uid://b8lal0m1n2o3" path="res://scenes/projectiles/blaster_bolt.tscn" id="6_projectile"]
 [ext_resource type="PackedScene" uid="uid://d2n3o4p5q6r7" path="res://scenes/ui/hud/game_hud.tscn" id="7_hud"]
 [ext_resource type="Script" uid="uid://bca2ajtinnu10" path="res://scenes/actors/components/health_component.gd" id="8_health"]
-[ext_resource type="PackedScene" path="res://scenes/effects/thruster_particles.tscn" id="9_thruster"]
+[ext_resource type="PackedScene" uid="uid://bg3xd8onhc3d2" path="res://scenes/effects/thruster_particles.tscn" id="9_thruster"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_31wp5"]
 size = Vector3(4.547241, 1.4628906, 4.477539)
 
-[node name="PlayerActor" type="CharacterBody3D"]
+[node name="PlayerActor" type="CharacterBody3D" groups=["Player"]]
 script = ExtResource("1_kpl6u")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

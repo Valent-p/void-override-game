@@ -1,0 +1,27 @@
+[gd_resource type="BehaviorTree" load_steps=9 format=3 uid="uid://c2xvudidhvsoc"]
+
+[ext_resource type="Script" uid="uid://cqwpuvrs5olum" path="res://ai/tasks/attack/target_acquire.gd" id="1_uyxde"]
+[ext_resource type="Script" uid="uid://dgwc76b6ctv02" path="res://ai/tasks/attack/face_target.gd" id="2_j2wsj"]
+[ext_resource type="Script" uid="uid://r1ofpnogouki" path="res://ai/tasks/attack/fire.gd" id="3_rir6d"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_803mj"]
+var/target/name = &"target"
+var/target/type = 24
+var/target/hint = 34
+var/target/hint_string = ""
+
+[sub_resource type="BTAction" id="BTAction_qpxps"]
+script = ExtResource("1_uyxde")
+
+[sub_resource type="BTAction" id="BTAction_h8gu3"]
+script = ExtResource("2_j2wsj")
+
+[sub_resource type="BTAction" id="BTAction_q86di"]
+script = ExtResource("3_rir6d")
+
+[sub_resource type="BTSelector" id="BTSelector_5osmp"]
+children = [SubResource("BTAction_qpxps"), SubResource("BTAction_h8gu3"), SubResource("BTAction_q86di")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_803mj")
+root_task = SubResource("BTSelector_5osmp")

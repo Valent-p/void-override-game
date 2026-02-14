@@ -15,6 +15,14 @@ run/main_scene="uid://d3x4y506a7b8"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
 
+[editor]
+
+movie_writer/movie_file="D:/godot-projects/moviefiles/voide-override/test.avi"
+
+[global_group]
+
+Player=""
+
 [input]
 
 move_forward={

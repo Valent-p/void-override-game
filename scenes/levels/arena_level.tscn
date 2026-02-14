@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://f0cj6omi7a4a" path="res://scenes/actors/player/player_actor.tscn" id="1_player"]
 [ext_resource type="Script" uid="uid://be7s16vpqwqor" path="res://scenes/systems/arena_generator/arena_generator.gd" id="2_generator"]
 [ext_resource type="PackedScene" uid="uid://c8j7q6x504y2" path="res://scenes/environment/asteroids/asteroid_a.tscn" id="3_asteroid"]
+[ext_resource type="PackedScene" uid="uid://d1e2f3g4h5i6" path="res://scenes/actors/enemy/enemy_actor.tscn" id="4_enemy"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_void"]
 sky_top_color = Color(0, 0, 0, 1)
@@ -41,3 +42,12 @@ generation_radius = 800.0
 grid_size = 60.0
 density = 0.4
 asteroid_scenes = Array[PackedScene]([ExtResource("3_asteroid")])
+
+[node name="EnemyActor" parent="." instance=ExtResource("4_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -50)
+
+[node name="EnemyActor2" parent="." instance=ExtResource("4_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 10, -80)
+
+[node name="EnemyActor3" parent="." instance=ExtResource("4_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, -5, -40)

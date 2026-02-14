@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://653e0wcup0cr" path="res://scenes/environment/asteroids/asteroid.gd" id="1_script"]
 [ext_resource type="Script" uid="uid://bca2ajtinnu10" path="res://scenes/actors/components/health_component.gd" id="2_health"]
 [ext_resource type="PackedScene" uid="uid://c2614vx2lrqa2" path="res://src_blend/env/asteroid.blend" id="3_sssge"]
-[ext_resource type="PackedScene" path="res://scenes/effects/asteroid_explosion.tscn" id="4_explosion"]
+[ext_resource type="PackedScene" uid="uid://bg5l0m1n2o3" path="res://scenes/effects/asteroid_explosion.tscn" id="4_explosion"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_j7q6x"]
 radius = 4.0
@@ -17,6 +17,6 @@ shape = SubResource("SphereShape3D_j7q6x")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("2_health")
-max_health = 50.0
+max_health = 200.0
 
 [node name="asteroid" parent="." instance=ExtResource("3_sssge")]
