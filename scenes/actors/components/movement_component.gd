@@ -12,9 +12,9 @@ extends Node
 @export var friction: float = 60.0
 
 @export_group("Rotation Settings")
-@export var pitch_speed: float = 2.5
-@export var yaw_speed: float = 2.5
-@export var roll_speed: float = 2.5
+@export var pitch_speed: float = 2.5 * 10
+@export var yaw_speed: float = 2.5 * 10
+@export var roll_speed: float = 2.5 * 10
 @export var rotation_inertia: float = 4.0 # Lower is heavier, higher is snappier (Lerp weight)
 
 @export_group("Visuals")

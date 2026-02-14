@@ -3,7 +3,7 @@ extends Node
 ## Sends user input to the movement component
 
 @export var movement_component: MovementComponent
-@export var mouse_sensitivity: float = 0.002
+@export var mouse_sensitivity: float = 0.005
 
 # Speed modifier for moving backwards
 const BACKWARD_SPEED_MODIFIER = 0.6
