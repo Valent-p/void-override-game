@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://c8j7q6x5z4y2"]
+[gd_scene load_steps=5 format=3 uid="uid://c8j7q6x5z4y2"]
+
+[ext_resource type="Script" path="res://scenes/actors/components/health_component.gd" id="1_health"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_j7q6x"]
 radius = 4.0
@@ -14,3 +16,9 @@ shape = SubResource("SphereShape3D_j7q6x")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_5z4y2")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("1_health")
+max_health = 50.0
+
+[connection signal="died" from="HealthComponent" to="." method="queue_free"]

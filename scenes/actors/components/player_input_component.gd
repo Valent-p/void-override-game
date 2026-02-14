@@ -32,7 +32,24 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
+	# Shooting Input
+	# We use is_action_pressed for semi-auto or just checking trigger pull
+	# For auto-fire, we can check Input.is_action_pressed in process/physics_process
+	if event.is_action_pressed("ui_accept") or (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed):
+		if is_instance_valid(movement_component.agent):
+			# Try to find a weapon component on the agent
+			var weapon = movement_component.agent.get_node_or_null("WeaponComponent")
+			if weapon and weapon.has_method("fire"):
+				weapon.fire()
+
 func _physics_process(_delta: float) -> void:
+    # Continuous fire check (Machine Gun style)
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		if is_instance_valid(movement_component.agent):
+			var weapon = movement_component.agent.get_node_or_null("WeaponComponent")
+			if weapon and weapon.has_method("fire"):
+				weapon.fire()
+
 	_handle_movement()
 
 func _handle_movement() -> void:
