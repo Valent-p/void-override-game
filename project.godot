@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Void Override"
-run/main_scene="uid://cnv3quukujfya"
+run/main_scene="uid://d3x4y506a7b8"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
 

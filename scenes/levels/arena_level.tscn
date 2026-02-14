@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://d3x4y506a7b8"]
 
 [ext_resource type="PackedScene" uid="uid://f0cj6omi7a4a" path="res://scenes/actors/player/player_actor.tscn" id="1_player"]
-[ext_resource type="Script" path="res://scenes/systems/arena_generator/arena_generator.gd" id="2_generator"]
-[ext_resource type="PackedScene" uid="uid://c8j7q6x5z4y2" path="res://scenes/environment/asteroids/asteroid_placeholder.tscn" id="3_asteroid"]
+[ext_resource type="Script" uid="uid://be7s16vpqwqor" path="res://scenes/systems/arena_generator/arena_generator.gd" id="2_generator"]
+[ext_resource type="PackedScene" uid="uid://c8j7q6x504y2" path="res://scenes/environment/asteroids/asteroid_placeholder.tscn" id="3_asteroid"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_void"]
 sky_top_color = Color(0, 0, 0, 1)
@@ -17,6 +17,11 @@ sky_material = SubResource("ProceduralSkyMaterial_void")
 background_mode = 2
 sky = SubResource("Sky_void")
 ambient_light_source = 3
+glow_enabled = true
+glow_levels/1 = 2.0
+glow_levels/2 = 1.0
+glow_levels/7 = 1.0
+glow_blend_mode = 1
 
 [node name="ArenaLevel" type="Node3D"]
 
