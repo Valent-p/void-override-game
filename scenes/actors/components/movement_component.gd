@@ -21,6 +21,7 @@ extends Node
 @export_group("Visuals")
 @export var bank_amount: float = 45.0 # Max roll angle when turning
 @export var bank_speed: float = 5.0 # How fast visual banking catches up
+@export var thruster_particles: Array[GPUParticles3D] = []
 
 @export_group("Boost")
 @export var boost_multiplier: float = 2.5
@@ -40,15 +41,37 @@ var current_boost_fuel: float = 100.0
 
 func _ready() -> void:
 	assert(is_instance_valid(agent), "Must set the agent.")
+	
+	# Initial particles state
+	_update_thrusters(0.0, false)
 
 func _physics_process(delta: float) -> void:
 	_handle_movement(delta)
 	_handle_rotation(delta)
 	
+	# Update thrusters based on forward movement
+	# move_direction.z is negative for forward (local space)
+	var forward_amount = clamp(-move_direction.z, 0.0, 1.0)
+	_update_thrusters(forward_amount, is_boosting and current_boost_fuel > 0)
+	
 	# Reset input for next frame
 	move_direction = Vector3.ZERO
 	yaw_input = 0.0
 	pitch_input = 0.0
+
+func _update_thrusters(amount: float, boosting: bool) -> void:
+	for p in thruster_particles:
+		if not is_instance_valid(p): continue
+		
+		# Base emission
+		var target_ratio = amount
+		if boosting:
+			target_ratio = 1.0
+			
+		p.amount_ratio = lerp(p.amount_ratio, target_ratio, 0.1)
+		
+		# Enable/Disable based on activity to save performance
+		p.emitting = p.amount_ratio > 0.01
 
 func _handle_movement(delta: float) -> void:
 	# 1. Apply Movement (Acceleration / Friction)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://f0cj6omi7a4a"]
+[gd_scene load_steps=12 format=3 uid="uid://f0cj6omi7a4a"]
 
 [ext_resource type="Script" uid="uid://c2tamnogvjxp3" path="res://scenes/actors/player/player_actor.gd" id="1_kpl6u"]
 [ext_resource type="PackedScene" uid="uid://cayc2jwg0senp" path="res://src_blend/actors/assault_A2.blend" id="1_ycgvs"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://b8lal0m1n2o3" path="res://scenes/projectiles/blaster_bolt.tscn" id="6_projectile"]
 [ext_resource type="PackedScene" uid="uid://d2n3o4p5q6r7" path="res://scenes/ui/hud/game_hud.tscn" id="7_hud"]
 [ext_resource type="Script" uid="uid://bca2ajtinnu10" path="res://scenes/actors/components/health_component.gd" id="8_health"]
+[ext_resource type="PackedScene" path="res://scenes/effects/thruster_particles.tscn" id="9_thruster"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_31wp5"]
 size = Vector3(4.547241, 1.4628906, 4.477539)
@@ -22,10 +23,11 @@ shape = SubResource("BoxShape3D_31wp5")
 
 [node name="assault_A2" parent="." instance=ExtResource("1_ycgvs")]
 
-[node name="MovementComponent" type="Node" parent="." node_paths=PackedStringArray("agent", "mesh_to_tilt")]
+[node name="MovementComponent" type="Node" parent="." node_paths=PackedStringArray("agent", "mesh_to_tilt", "thruster_particles")]
 script = ExtResource("2_rgh5p")
 agent = NodePath("..")
 mesh_to_tilt = NodePath("../assault_A2")
+thruster_particles = [NodePath("../EngineL/ThrusterParticles"), NodePath("../EngineR/ThrusterParticles")]
 
 [node name="PlayerInputComponent" type="Node" parent="." node_paths=PackedStringArray("movement_component")]
 script = ExtResource("3_31wp5")
@@ -50,6 +52,16 @@ muzzle = NodePath("../MuzzleRight")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("8_health")
+
+[node name="EngineL" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0.4, 2)
+
+[node name="ThrusterParticles" parent="EngineL" instance=ExtResource("9_thruster")]
+
+[node name="EngineR" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.4, 2)
+
+[node name="ThrusterParticles" parent="EngineR" instance=ExtResource("9_thruster")]
 
 [node name="MuzzleLeft" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 0, -3)
