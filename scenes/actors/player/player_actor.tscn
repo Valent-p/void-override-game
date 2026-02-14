@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://f0cj6omi7a4a"]
+[gd_scene load_steps=10 format=3 uid="uid://f0cj6omi7a4a"]
 
 [ext_resource type="Script" uid="uid://c2tamnogvjxp3" path="res://scenes/actors/player/player_actor.gd" id="1_kpl6u"]
 [ext_resource type="PackedScene" uid="uid://cayc2jwg0senp" path="res://src_blend/actors/assault_A2.blend" id="1_ycgvs"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://bw3ptaihnkm1f" path="res://scenes/actors/components/camera_lag_component.gd" id="4_camlag"]
 [ext_resource type="Script" uid="uid://ceg8qqr0hoc5" path="res://scenes/actors/components/weapon_component.gd" id="5_weapon"]
 [ext_resource type="PackedScene" uid="uid://b8lal0m1n2o3" path="res://scenes/projectiles/blaster_bolt.tscn" id="6_projectile"]
+[ext_resource type="PackedScene" uid="uid://d2n3o4p5q6r7" path="res://scenes/ui/hud/game_hud.tscn" id="7_hud"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_31wp5"]
 size = Vector3(4.547241, 1.4628906, 4.477539)
@@ -34,15 +35,26 @@ script = ExtResource("4_camlag")
 target_node = NodePath("..")
 camera = NodePath("../Camera3D")
 
-[node name="WeaponComponent" type="Node" parent="." node_paths=PackedStringArray("muzzle")]
+[node name="WeaponLeft" type="Node" parent="." node_paths=PackedStringArray("muzzle")]
 script = ExtResource("5_weapon")
 projectile_scene = ExtResource("6_projectile")
 fire_rate = 8.0
-muzzle = NodePath("../Muzzle")
+muzzle = NodePath("../MuzzleLeft")
 
-[node name="Muzzle" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.3643904)
+[node name="WeaponRight" type="Node" parent="." node_paths=PackedStringArray("muzzle")]
+script = ExtResource("5_weapon")
+projectile_scene = ExtResource("6_projectile")
+fire_rate = 8.0
+muzzle = NodePath("../MuzzleRight")
+
+[node name="MuzzleLeft" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 0, -3)
+
+[node name="MuzzleRight" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 0, -3)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.96217054, 0.27244824, 0, -0.27244824, 0.96217054, 0, 4, 4)
 current = true
+
+[node name="GameHUD" parent="." instance=ExtResource("7_hud")]

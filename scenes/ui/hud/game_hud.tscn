@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2n3o4p5q6r7"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_crosshair"]
+size = Vector2(8, 8)
+
+[node name="GameHUD" type="CanvasLayer"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Crosshair" type="TextureRect" parent="Control/CenterContainer"]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+texture = SubResource("PlaceholderTexture2D_crosshair")
+stretch_mode = 3
